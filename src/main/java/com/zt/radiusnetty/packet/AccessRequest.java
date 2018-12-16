@@ -7,4 +7,5 @@ package com.zt.radiusnetty.packet;
 public class AccessRequest extends BaseRequest {
 
 
+
 }

@@ -7,7 +7,7 @@ package com.zt.radiusnetty.packet;
 public class BaseRequest {
 
     /**
-     * 完整报文内容
+     * AVPs属性字段
      */
     private byte[] message;
 

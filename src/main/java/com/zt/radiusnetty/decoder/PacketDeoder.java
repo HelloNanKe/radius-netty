@@ -28,10 +28,6 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
         byte[] msg = new byte[capacity];
         byteBuf.readBytes(msg);
 
-        for (byte b : msg) {
-            System.out.print(b + " ");
-        }
-
         //请求码
         int code = msg[0];
         //单次请求标识
@@ -42,7 +38,7 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
 
         byte[] authenticatorByte = new byte[16];
         System.arraycopy(msg, 4, authenticatorByte, 0, 16);
-        String authenticator = new String(authenticatorByte,"UTF-8");
+        String authenticator = new String(authenticatorByte, "UTF-8");
 
         //发生丢包现象，直接返回，等待重传
         if (capacity < packetLenth) {
@@ -51,10 +47,13 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
 
         System.out.println("authenticator=>" + authenticator);
 
+        byte[] avpsByte = new byte[capacity - 20];
+        System.arraycopy(msg, 20, avpsByte, 0, capacity - 20);
+
         //认证请求报文
         if (code == 1) {
             AccessRequest accessRequest = new AccessRequest();
-            accessRequest.setMessage(msg);
+            accessRequest.setMessage(avpsByte);
             accessRequest.setCode(code);
             accessRequest.setPacketLenth(packetLenth);
             accessRequest.setIdentifier(identify);
@@ -65,7 +64,7 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
         //计费报文
         if (code == 4) {
             AccountingRequest accountingRequest = new AccountingRequest();
-            accountingRequest.setMessage(msg);
+            accountingRequest.setMessage(avpsByte);
             accountingRequest.setCode(code);
             accountingRequest.setPacketLenth(packetLenth);
             accountingRequest.setIdentifier(identify);
