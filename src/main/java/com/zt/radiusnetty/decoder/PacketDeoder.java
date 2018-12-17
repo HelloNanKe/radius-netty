@@ -27,7 +27,7 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
         System.out.println("总字节数:" + capacity);
         byte[] msg = new byte[capacity];
         byteBuf.readBytes(msg);
-
+/*
         int i = 0;
         for (byte b : msg) {
             i++;
@@ -35,7 +35,7 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
             if (i % 5 == 0) {
                 System.out.println();
             }
-        }
+        }*/
 
         //请求码
         int code = msg[0];

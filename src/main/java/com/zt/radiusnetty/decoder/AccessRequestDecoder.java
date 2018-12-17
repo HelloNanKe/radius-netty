@@ -34,13 +34,14 @@ public class AccessRequestDecoder extends MessageToMessageDecoder<AccessRequest>
         int lengthPos = 1;
 
         while (size > 0) {
-            //属性字段按照TLV方式存储，T-type,L-length,V-value
+            //属性字段按照TLV方式存储，T-type,L-length,V-value,length的长度为tlv的总长度
             int type = avpsMsg[typePos];
-            int length = avpsMsg[lengthPos];
+            int length = avpsMsg[lengthPos]-2;
+
             System.err.println("typePos=" + typePos + "=>lenthPos=" + lengthPos + "=>length=" + length);
             byte[] tmpByte = new byte[length];
 
-            System.arraycopy(avpsMsg, typePos, tmpByte, 0, length);
+            System.arraycopy(avpsMsg, typePos+2, tmpByte, 0, length);
 
             typePos = length + lengthPos + 1;
             lengthPos = typePos + 1;
@@ -48,7 +49,6 @@ public class AccessRequestDecoder extends MessageToMessageDecoder<AccessRequest>
             if (length > 0) {
                 value = new String(tmpByte, "UTF-8");
             }
-
 
             System.err.println("类型:" + type + "=>长度:" + length + "=>value:" + value);
             size = size - 2 - length;
