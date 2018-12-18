@@ -10,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.handler.codec.MessageToMessageDecoder;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -21,10 +22,10 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, DatagramPacket datagramPacket, List<Object> list) throws Exception {
-        System.out.println("进入报文解析");
+//        System.out.println("进入报文解析");
         ByteBuf byteBuf = datagramPacket.content();
         int capacity = byteBuf.readableBytes();
-        System.out.println("总字节数:" + capacity);
+//        System.out.println("总字节数:" + capacity);
         byte[] msg = new byte[capacity];
         byteBuf.readBytes(msg);
 /*
@@ -47,14 +48,15 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
 
         byte[] authenticatorByte = new byte[16];
         System.arraycopy(msg, 4, authenticatorByte, 0, 16);
-        String authenticator = new String(authenticatorByte, "UTF-8");
+        String authenticator = new String(authenticatorByte, StandardCharsets.UTF_8);
 
         //发生丢包现象，直接返回，等待重传
         if (capacity < packetLenth) {
+            System.out.println("发生丢包，等待重传！");
             return;
         }
 
-        System.out.println("authenticator=>" + authenticator);
+//        System.out.println("authenticator=>" + authenticator);
 
         byte[] avpsByte = new byte[capacity - 20];
         System.arraycopy(msg, 20, avpsByte, 0, capacity - 20);
