@@ -36,4 +36,5 @@ public class AccessRequest extends BaseRequest {
     public void setPassBytes(byte[] passBytes) {
         this.passBytes = passBytes;
     }
+
 }

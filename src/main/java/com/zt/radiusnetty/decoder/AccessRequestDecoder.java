@@ -22,13 +22,13 @@ public class AccessRequestDecoder extends MessageToMessageDecoder<AccessRequest>
         byte[] avpsMsg = accessRequest.getMessage();
         int size = avpsMsg.length;
         System.out.println("初始总长度：" + size);
-        int k = 1;
+   /*     int k = 1;
         for (byte b : avpsMsg) {
             System.out.print(b + " ");
             if (k++ % 10 == 0)
                 System.out.println();
         }
-        System.out.println();
+        System.out.println();*/
         while (avpsMsg.length > 0) {
             int type = avpsMsg[0];
             int len = avpsMsg[1];
@@ -61,10 +61,8 @@ public class AccessRequestDecoder extends MessageToMessageDecoder<AccessRequest>
             avpsMsg = getTlvByte(avpsMsg, len);
             System.out.println("type=" + type + " len=" + len + " val=" + val);
         }
-        ResponsePacket responsePacket = new ResponsePacket();
-        responsePacket.setAccessRequest(accessRequest);
-        ctx.writeAndFlush(responsePacket);
-//        out.add(responsePacket);
+        ctx.writeAndFlush(accessRequest);
+
     }
 
 

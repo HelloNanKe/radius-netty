@@ -2,7 +2,7 @@ package com.zt.radiusnetty.server;
 
 import com.zt.radiusnetty.decoder.AccessRequestDecoder;
 import com.zt.radiusnetty.decoder.PacketDeoder;
-import com.zt.radiusnetty.encoder.ResponseEncoder;
+import com.zt.radiusnetty.encoder.ResponsePacketEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -23,9 +23,10 @@ public class RadiusServer {
 
             @Override
             protected void initChannel(NioDatagramChannel nioDatagramChannel) throws Exception {
+                nioDatagramChannel.pipeline().addLast(new ResponsePacketEncoder());
+
                 nioDatagramChannel.pipeline().addLast(new PacketDeoder());
                 nioDatagramChannel.pipeline().addLast(new AccessRequestDecoder());
-                nioDatagramChannel.pipeline().addLast(new ResponseEncoder());
             }
         }).option(ChannelOption.SO_BROADCAST, true)// 支持广播
                 .option(ChannelOption.SO_BACKLOG, 128)

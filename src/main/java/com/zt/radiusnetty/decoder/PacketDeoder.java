@@ -28,15 +28,6 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
 //        System.out.println("总字节数:" + capacity);
         byte[] msg = new byte[capacity];
         byteBuf.readBytes(msg);
-/*
-        int i = 0;
-        for (byte b : msg) {
-            i++;
-            System.out.print(b + " ");
-            if (i % 5 == 0) {
-                System.out.println();
-            }
-        }*/
 
         //请求码
         int code = msg[0];
@@ -46,9 +37,8 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
         int packetLenth = ByteUtil.doubleByteToInt(msg[2], msg[3]);
 
 
-        byte[] authenticatorByte = new byte[16];
-        System.arraycopy(msg, 4, authenticatorByte, 0, 16);
-        String authenticator = new String(authenticatorByte, StandardCharsets.UTF_8);
+        byte[] authenticator = new byte[16];
+        System.arraycopy(msg, 4, authenticator, 0, 16);
 
         //发生丢包现象，直接返回，等待重传
         if (capacity < packetLenth) {

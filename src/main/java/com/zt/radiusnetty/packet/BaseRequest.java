@@ -29,7 +29,7 @@ public class BaseRequest {
     /**
      * 认证字域占用16个字节，用于Radius Client 和Server之间消息认证的有效性，和密码隐藏算法。
      */
-    private String authenticator;
+    private byte[] authenticator;
     
     public byte[] getMessage() {
         return message;
@@ -63,11 +63,11 @@ public class BaseRequest {
         this.identifier = identifier;
     }
 
-    public String getAuthenticator() {
+    public byte[] getAuthenticator() {
         return authenticator;
     }
 
-    public void setAuthenticator(String authenticator) {
+    public void setAuthenticator(byte[] authenticator) {
         this.authenticator = authenticator;
     }
 }
