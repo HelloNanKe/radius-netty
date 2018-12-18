@@ -59,6 +59,7 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
         byte[] avpsByte = new byte[capacity - 20];
         System.arraycopy(msg, 20, avpsByte, 0, capacity - 20);
 
+
         //认证请求报文
         if (code == 1) {
             AccessRequest accessRequest = new AccessRequest();
@@ -80,7 +81,6 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
             accountingRequest.setAuthenticator(authenticator);
             list.add(accountingRequest);
         }
-
 
     }
 }

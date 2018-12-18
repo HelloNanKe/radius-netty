@@ -5,7 +5,7 @@ package com.zt.radiusnetty.packet;
  * @Date: 2018/12/16 13:02
  */
 public class BaseRequest {
-
+    
     /**
      * AVPs属性字段
      */
@@ -30,7 +30,7 @@ public class BaseRequest {
      * 认证字域占用16个字节，用于Radius Client 和Server之间消息认证的有效性，和密码隐藏算法。
      */
     private String authenticator;
-
+    
     public byte[] getMessage() {
         return message;
     }
