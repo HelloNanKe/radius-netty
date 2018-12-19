@@ -3,6 +3,7 @@ package com.zt.radiusnetty.encoder;
 import com.zt.radiusnetty.Common.PacketType;
 import com.zt.radiusnetty.packet.AccessRequest;
 import com.zt.radiusnetty.packet.ResponsePacket;
+import com.zt.radiusnetty.server.RadiusServer;
 import com.zt.radiusnetty.util.ByteUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,6 +11,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.handler.codec.MessageToMessageEncoder;
 
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.List;
 
@@ -34,10 +36,10 @@ public class ResponsePacketEncoder extends MessageToMessageEncoder<AccessRequest
         System.arraycopy(authenticator, 0, data, 4, 16);
         DatagramPacket datagramPacket = new DatagramPacket(data, 20);
         datagramPacket.setData(data);
-        datagramPacket.setAddress(InetAddress.getLocalHost());
+
+        InetAddress inetAddress = InetAddress.getByName("127.0.0.1");
+        datagramPacket.setAddress(inetAddress);
         datagramPacket.setPort(1812);
         ctx.writeAndFlush(datagramPacket);
-//        out.writeBytes(data);
-//        out.add(datagramPacket);
     }
 }
