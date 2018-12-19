@@ -1,7 +1,6 @@
 package com.zt.radiusnetty.decoder;
 
 import com.zt.radiusnetty.packet.AccessRequest;
-import com.zt.radiusnetty.packet.ResponsePacket;
 import com.zt.radiusnetty.util.ByteUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
@@ -62,7 +61,6 @@ public class AccessRequestDecoder extends MessageToMessageDecoder<AccessRequest>
             System.out.println("type=" + type + " len=" + len + " val=" + val);
         }
         ctx.writeAndFlush(accessRequest);
-
     }
 
 

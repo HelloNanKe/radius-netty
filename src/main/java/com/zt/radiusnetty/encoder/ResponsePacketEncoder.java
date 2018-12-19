@@ -7,9 +7,11 @@ import com.zt.radiusnetty.util.ByteUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import io.netty.handler.codec.MessageToMessageEncoder;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.util.List;
 
 /**
  * 处理access_request的认证信息
@@ -17,12 +19,10 @@ import java.net.InetAddress;
  * @Author: zt
  * @Date: 2018/12/18 17:18
  */
-public class ResponsePacketEncoder extends MessageToByteEncoder<AccessRequest> {
-
-
+public class ResponsePacketEncoder extends MessageToMessageEncoder<AccessRequest> {
     @Override
-    protected void encode(ChannelHandlerContext ctx, AccessRequest msg, ByteBuf out) throws Exception {
-        System.out.println("进入放回编码处理！AccessRequest");
+    protected void encode(ChannelHandlerContext ctx, AccessRequest msg, List<Object> out) throws Exception {
+        System.out.println("进入返回编码处理！AccessRequest");
         byte[] authenticator = msg.getAuthenticator();
         int identifier = msg.getIdentifier();
         int type = PacketType.ACCESS_ACCEPT;
@@ -38,6 +38,6 @@ public class ResponsePacketEncoder extends MessageToByteEncoder<AccessRequest> {
         datagramPacket.setPort(1812);
         ctx.writeAndFlush(datagramPacket);
 //        out.writeBytes(data);
+//        out.add(datagramPacket);
     }
-
 }
