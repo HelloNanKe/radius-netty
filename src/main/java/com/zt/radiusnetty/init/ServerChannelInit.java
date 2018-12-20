@@ -5,6 +5,7 @@ import com.zt.radiusnetty.decoder.PacketDeoder;
 import com.zt.radiusnetty.encoder.ResponsePacketEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.nio.NioDatagramChannel;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 
 /**
  * @Author: zt
@@ -13,6 +14,7 @@ import io.netty.channel.socket.nio.NioDatagramChannel;
 public class ServerChannelInit extends ChannelInitializer<NioDatagramChannel> {
     @Override
     protected void initChannel(NioDatagramChannel nioDatagramChannel) throws Exception {
+        nioDatagramChannel.pipeline().addLast(new ObjectEncoder());
         nioDatagramChannel.pipeline().addLast(new ResponsePacketEncoder());
         nioDatagramChannel.pipeline().addLast(new PacketDeoder());
         nioDatagramChannel.pipeline().addLast(new AccessRequestDecoder());

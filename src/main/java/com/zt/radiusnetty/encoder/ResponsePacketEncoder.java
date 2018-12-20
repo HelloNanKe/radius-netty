@@ -29,6 +29,13 @@ public class ResponsePacketEncoder extends MessageToMessageEncoder<AccessRequest
         System.arraycopy(authenticator, 0, data, 4, 16);
 
         ByteBuf byteBuf =Unpooled.copiedBuffer(data);
+
+        try {
+            System.out.println(msg.getSenderAddress().getAddress()+"=>"+msg.getSenderAddress().getHostName());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         DatagramPacket datagramPacket = new DatagramPacket(byteBuf, msg.getSenderAddress());
         ctx.writeAndFlush(datagramPacket);
     }
