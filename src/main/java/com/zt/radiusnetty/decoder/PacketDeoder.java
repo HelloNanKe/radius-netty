@@ -2,15 +2,14 @@ package com.zt.radiusnetty.decoder;
 
 import com.zt.radiusnetty.packet.AccessRequest;
 import com.zt.radiusnetty.packet.AccountingRequest;
-import com.zt.radiusnetty.packet.BaseRequest;
 import com.zt.radiusnetty.util.ByteUtil;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.handler.codec.MessageToMessageDecoder;
 
-import java.nio.charset.StandardCharsets;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
@@ -24,10 +23,17 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
     protected void decode(ChannelHandlerContext channelHandlerContext, DatagramPacket datagramPacket, List<Object> list) throws Exception {
 //        System.out.println("进入报文解析");
         ByteBuf byteBuf = datagramPacket.content();
+
         int capacity = byteBuf.readableBytes();
 //        System.out.println("总字节数:" + capacity);
         byte[] msg = new byte[capacity];
         byteBuf.readBytes(msg);
+
+        System.out.println();
+        for (byte b : msg) {
+            System.out.print(b + " ");
+        }
+        System.out.println();
 
         //请求码
         int code = msg[0];
@@ -60,6 +66,8 @@ public class PacketDeoder extends MessageToMessageDecoder<DatagramPacket> {
             accessRequest.setPacketLenth(packetLenth);
             accessRequest.setIdentifier(identify);
             accessRequest.setAuthenticator(authenticator);
+            InetSocketAddress inetSocketAddress = datagramPacket.sender();
+            accessRequest.setSenderAddress(inetSocketAddress);
             list.add(accessRequest);
         }
 

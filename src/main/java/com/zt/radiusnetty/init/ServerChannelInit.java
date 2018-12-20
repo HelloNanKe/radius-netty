@@ -4,7 +4,6 @@ import com.zt.radiusnetty.decoder.AccessRequestDecoder;
 import com.zt.radiusnetty.decoder.PacketDeoder;
 import com.zt.radiusnetty.encoder.ResponsePacketEncoder;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.socket.DatagramPacket;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 
 /**

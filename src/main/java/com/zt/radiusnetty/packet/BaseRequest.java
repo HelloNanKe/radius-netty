@@ -1,5 +1,7 @@
 package com.zt.radiusnetty.packet;
 
+import java.net.InetSocketAddress;
+
 /**
  * @Author: zt
  * @Date: 2018/12/16 13:02
@@ -30,6 +32,11 @@ public class BaseRequest {
      * 认证字域占用16个字节，用于Radius Client 和Server之间消息认证的有效性，和密码隐藏算法。
      */
     private byte[] authenticator;
+
+    /**
+     * 发消息的人的地址
+     */
+    private InetSocketAddress senderAddress;
     
     public byte[] getMessage() {
         return message;
@@ -69,5 +76,13 @@ public class BaseRequest {
 
     public void setAuthenticator(byte[] authenticator) {
         this.authenticator = authenticator;
+    }
+
+    public InetSocketAddress getSenderAddress() {
+        return senderAddress;
+    }
+
+    public void setSenderAddress(InetSocketAddress senderAddress) {
+        this.senderAddress = senderAddress;
     }
 }
